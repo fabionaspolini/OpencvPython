@@ -7,6 +7,7 @@ from PIL import Image
 import tkinter
 import pytesseract
 import cv2
+import os.path
 
 def desenhaContornos(contornos, imagem):
 
@@ -22,7 +23,9 @@ def desenhaContornos(contornos, imagem):
              (x, y, lar, alt) = cv2.boundingRect(c)
              cv2.rectangle(imagem, (x, y), (x + lar, y + alt), (0, 255, 0), 2)
              #segmenta a placa da imagem
-             roi = imagem[(y+15):y+alt, x:x+lar]
+             roi = imagem[(y):y+alt, x:x+lar]
+             # if os.path.exists('C:/Tesseract-OCR/saidas/roi.jpg'):
+             #     os.remove('C:/Tesseract-OCR/saidas/roi.jpg')
              cv2.imwrite("C:/Tesseract-OCR/saidas/roi.jpg", roi)
 
     return imagem
@@ -88,7 +91,7 @@ def buscaRetanguloPlaca(source):
         img_result = cv2.GaussianBlur(img_result, (5, 5), 0)
 
         # lista os contornos
-        img, contornos, hier = cv2.findContours(img_result, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
+        contornos = cv2.findContours(img_result, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)[0]
 
         # limite horizontal
         cv2.line(frame, (0, 500), (1280, 500), (0, 0, 255), 1)
