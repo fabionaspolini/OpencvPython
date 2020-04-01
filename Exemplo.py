@@ -1,11 +1,10 @@
 import cv2
 
 # Recordar placa da imagem
+path = 'resource/carro (1).jpg'
 
-img = cv2.imread('resource/carro (1).jpg')
-# img = cv2.imread('resource/teste_1.jpg')
-# img = cv2.imread('resource/teste_2.jpg')
-cv2.imshow('img', img)
+img = cv2.imread(path)
+# cv2.imshow('img', img)
 
 cinza = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 # cv2.imshow('cinza', cinza)
@@ -21,8 +20,9 @@ desfoque = cv2.GaussianBlur(bin, (5, 5), 0)
 contornos = cv2.findContours(desfoque, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)[0]
 # print(contornos)
 
-# cv2.drawContours(img, contornos, -1, (0, 255, 0), 1)
-# cv2.imshow('contornos', img)
+img_contorno = cv2.imread(path)
+cv2.drawContours(img_contorno, contornos, -1, (0, 255, 0), 1)
+cv2.imshow('contornos', img_contorno)
 
 for c in contornos:
     perimetro = cv2.arcLength(c, True)
@@ -34,7 +34,7 @@ for c in contornos:
             roi = img[y:y + alt, x:x + lar]
             cv2.imwrite('output/placa.jpg', roi)
 
-cv2.imshow('contornos', img)
+cv2.imshow('placa', img)
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()

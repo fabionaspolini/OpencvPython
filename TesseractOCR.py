@@ -33,9 +33,17 @@ class TesseractOCR():
 
         cv2.imwrite(path_img + "-ocr.jpg", img)
         imagem = Image.open(path_img + "-ocr.jpg")
+
         saida = pytesseract.image_to_string(imagem, lang='eng')
+        saida_digitos = pytesseract.image_to_string(imagem, lang='eng', config='digits')
+        saida_alfa = pytesseract.image_to_string(imagem, lang='eng', config="-c tessedit"
+"_char_whitelist=34O"
+# " --psm 3"
+# " -l osd"
+" ")
         print(saida)
-        texto = self.removerChars(saida)
+        # texto = self.removerChars(saida)
+        texto = 'Padrão: ' + saida + '\nDigitos: ' + saida_digitos + '\nAlfa: ' + saida_alfa
         janela = tkinter.Tk()
         tkinter.Label(janela, text=texto, font=("Helvetica", 50)).pack()
         janela.mainloop()
