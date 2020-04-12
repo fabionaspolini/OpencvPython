@@ -11,6 +11,7 @@ import cv2
 
 def findPlace(contornos, imagem):#
 
+    cv2.imwrite("C:/Tesseract-OCR/saidas/ultimo-frame-parcial.jpg", imagem)
     for c in contornos:
         # perimetro do contorno, verifica se o contorno é fechado
         perimetro = cv2.arcLength(c, True)
@@ -81,11 +82,13 @@ def removerChars(text):
 video = cv2.VideoCapture('resource\\video1-720p.mkv')
 
 while(video.isOpened()):
-
     ret, frame = video.read()
 
     if(ret == False):
+        cv2.imwrite("C:/Tesseract-OCR/saidas/ultimo-frame.jpg", last_frame)
         break
+
+    last_frame = frame
 
     #area de localização
     area = frame[500: , 300:800]
